@@ -8,13 +8,11 @@ setup(
     version      = '1.0.0',
     keywords     = 'powerline docker container status',
     license      = 'MIT',
-    author       = 'Adrian Moreno',
+    author       = 'Adrian Moreno Martinez',
     author_email = 'adrian@morenomartinez.com',
     url          = 'https://github.com/adrianmo/powerline-docker',
     packages     = ['powerline_docker'],
-    install_requires =[
-          'docker-py',
-      ],
+    install_requires = ['powerline-status', 'docker-py'],
     classifiers  = [
         'Environment :: Console',
         'Intended Audience :: Developers',

@@ -17,10 +17,10 @@ The Docker segment requires [docker](https://docs.docker.com/engine/installation
 
 ## Installation
 
+Installing the Docker segment can be done with `pip`:
+
 ```
-$ git clone https://github.com/adrianmo/powerline-docker.git
-$ cd powerline-docker
-$ python setup.py install
+$ pip install powerline-docker
 ```
 
 The Docker segment uses a couple of custom highlight groups. You'll need to define those groups in your colorscheme, for example in `.config/powerline/colorschemes/default.json`:
