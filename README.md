@@ -2,14 +2,16 @@
 
 A [Powerline](https://github.com/powerline/powerline) segment for showing Docker container statuses.
 
-Currently, this segment shows the number of running and exited containers together with a nice looking whale. Please feel free to propose more features and give me ideas on how to improve it.
+This segment shows the number of running, paused, exited, and restarting containers together with a nice looking whale. Please feel free to propose more features and give me ideas on how to improve it.
 
 ![powerline-docker](screenshot.png)
 
 Glossary
 --------
 - `●`: n containers running
+- `~`: n containers paused
 - `✖`: n containers exited
+- `➥`: n containers restarting
 
 ## Requirements
 
@@ -30,8 +32,10 @@ The Docker segment uses a couple of custom highlight groups. You'll need to defi
   "groups": {
     "docker":                    { "fg": "gray8",           "bg": "darkestblue", "attrs": [] },
     "docker_running":            { "fg": "green",           "bg": "darkestblue", "attrs": [] },
+    "docker_paused":             { "fg": "brightestorange", "bg": "darkestblue", "attrs": [] },
     "docker_exited":             { "fg": "brightred",       "bg": "darkestblue", "attrs": [] },
-    "docker:divider":            { "fg": "gray8",           "bg": "darkestblue", "attrs": [] }
+    "docker_restarting":         { "fg": "gray10",          "bg": "darkestblue", "attrs": [] },
+    "docker:divider":            { "fg": "gray4",           "bg": "darkestblue", "attrs": [] }
   }
 }
 ```

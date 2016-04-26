@@ -8,28 +8,36 @@ class DockerSegment(Segment):
 
     def get_container_statuses(self):
         running = self.cli.containers(quiet=True, filters={'status': 'running'})
+        paused = self.cli.containers(quiet=True, filters={'status': 'paused'})
         exited = self.cli.containers(quiet=True, filters={'status': 'exited'})
-        return (len(running), len(exited))
+        restarting = self.cli.containers(quiet=True, filters={'status': 'restarting'})
+        return (len(running), len(paused), len(exited), len(restarting))
 
-    def build_segments(self, running, exited):
+    def build_segments(self, running, paused, exited, restarting):
         segments = [
             {'contents': u'\U0001F433 ', 'highlight_groups': ['docker'], 'divider_highlight_group': 'docker:divider'}
         ]
 
         if running:
             segments.append({'contents': ' ● %d' % running, 'highlight_groups': ['docker_running', 'docker'], 'divider_highlight_group': 'docker:divider'})
+        if paused:
+            segments.append({'contents': ' ~ %d' % paused, 'highlight_groups': ['docker_paused', 'docker'], 'divider_highlight_group': 'docker:divider'})
         if exited:
             segments.append({'contents': ' ✖ %d' % exited, 'highlight_groups': ['docker_exited', 'docker'], 'divider_highlight_group': 'docker:divider'})
+        if restarting:
+            segments.append({'contents': ' ➥ %d' % restarting, 'highlight_groups': ['docker_restarting', 'docker'], 'divider_highlight_group': 'docker:divider'})
 
         return segments
 
     def __call__(self, pl, base_url='unix://var/run/docker.sock'):
+        self.pl = pl
+
         pl.debug('Running powerline-docker')
 
         self.cli = Client(base_url=base_url)
 
         try:
-            running, exited = self.get_container_statuses()
+            running, paused, exited, restarting = self.get_container_statuses()
         except ConnectionError:
             pl.error('Cannot connect to Docker server on \'%s\'' % (base_url,))
             return
@@ -37,7 +45,7 @@ class DockerSegment(Segment):
             pl.error(e)
             return
 
-        return self.build_segments(running, exited)
+        return self.build_segments(running, paused, exited, restarting)
 
 
 docker = with_docstring(DockerSegment(),
