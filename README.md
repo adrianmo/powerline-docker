@@ -4,7 +4,7 @@ A [Powerline](https://github.com/powerline/powerline) segment for showing Docker
 
 This segment shows the number of running, paused, exited, and restarting containers together with a nice looking whale. Please feel free to propose more features and give me ideas on how to improve it.
 
-![powerline-docker](screenshot.png)
+![powerline-docker](screenshot.png =300x)
 
 Glossary
 --------
