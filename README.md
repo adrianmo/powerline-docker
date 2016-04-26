@@ -1,6 +1,6 @@
 # Powerline Docker [![PyPI version](https://badge.fury.io/py/powerline-docker.svg)](https://badge.fury.io/py/powerline-docker)
 
-A [Powerline](https://github.com/powerline/powerline) segment for showing Docker container statuses.
+A [Powerline](https://github.com/powerline/powerline) segment for showing the status of your Docker containers.
 
 This segment shows the number of running, paused, exited, and restarting containers together with a nice looking whale. Please feel free to propose more features and give me ideas on how to improve it.
 
