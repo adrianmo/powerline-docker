@@ -1,4 +1,4 @@
-# Powerline Docker
+# Powerline Docker [![PyPI version](https://badge.fury.io/py/powerline-docker.svg)](https://badge.fury.io/py/powerline-docker)
 
 A [Powerline](https://github.com/powerline/powerline) segment for showing Docker container statuses.
 
