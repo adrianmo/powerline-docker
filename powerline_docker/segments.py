@@ -4,40 +4,66 @@ from powerline.theme import requires_segment_info
 from requests.exceptions import ConnectionError
 from docker import Client
 
+
+DOCKER_STATUSES = ('running', 'paused', 'exited', 'restarting')
+
+SEGMENT_INFO = {
+    'running': {
+        'icon': '●',
+        'highlight_group': 'docker_running'
+    },
+    'paused': {
+        'icon': '~',
+        'highlight_group': 'docker_paused'
+    },
+    'exited': {
+        'icon': '✖',
+        'highlight_group': 'docker_exited'
+    },
+    'restarting': {
+        'icon': '↻',
+        'highlight_group': 'docker_restarting'
+    }
+}
+
 class DockerSegment(Segment):
 
-    def get_container_statuses(self):
-        running = self.cli.containers(quiet=True, filters={'status': 'running'})
-        paused = self.cli.containers(quiet=True, filters={'status': 'paused'})
-        exited = self.cli.containers(quiet=True, filters={'status': 'exited'})
-        restarting = self.cli.containers(quiet=True, filters={'status': 'restarting'})
-        return (len(running), len(paused), len(exited), len(restarting))
+    def get_statuses_count(self):
+        count = []
+        for status in DOCKER_STATUSES:
+            if status in self.ignore_statuses:
+                continue
+            containers = self.cli.containers(quiet=True, filters={'status': status})
+            if not containers:
+                continue
+            count.append({'status': status, 'quantity': len(containers)})
 
-    def build_segments(self, running, paused, exited, restarting):
+        return count
+
+    def build_segments(self, statuses_count):
         segments = [
             {'contents': u'\U0001F433 ', 'highlight_groups': ['docker'], 'divider_highlight_group': 'docker:divider'}
         ]
 
-        if running:
-            segments.append({'contents': ' ● %d' % running, 'highlight_groups': ['docker_running', 'docker'], 'divider_highlight_group': 'docker:divider'})
-        if paused:
-            segments.append({'contents': ' ~ %d' % paused, 'highlight_groups': ['docker_paused', 'docker'], 'divider_highlight_group': 'docker:divider'})
-        if exited:
-            segments.append({'contents': ' ✖ %d' % exited, 'highlight_groups': ['docker_exited', 'docker'], 'divider_highlight_group': 'docker:divider'})
-        if restarting:
-            segments.append({'contents': ' ➥ %d' % restarting, 'highlight_groups': ['docker_restarting', 'docker'], 'divider_highlight_group': 'docker:divider'})
+        for count in statuses_count:
+            segments.append({
+                'contents': ' %s %d' % (SEGMENT_INFO[count['status']]['icon'], count['quantity']),
+                'highlight_groups': [SEGMENT_INFO[count['status']]['highlight_group'], 'docker'],
+                'divider_highlight_group': 'docker:divider'
+            })
 
         return segments
 
-    def __call__(self, pl, base_url='unix://var/run/docker.sock'):
+    def __call__(self, pl, base_url='unix://var/run/docker.sock', ignore_statuses=[]):
         self.pl = pl
+        self.ignore_statuses = ignore_statuses
 
         pl.debug('Running powerline-docker')
 
         self.cli = Client(base_url=base_url)
 
         try:
-            running, paused, exited, restarting = self.get_container_statuses()
+            statuses = self.get_statuses_count()
         except ConnectionError:
             pl.error('Cannot connect to Docker server on \'%s\'' % (base_url,))
             return
@@ -45,7 +71,7 @@ class DockerSegment(Segment):
             pl.error(e)
             return
 
-        return self.build_segments(running, paused, exited, restarting)
+        return self.build_segments(statuses)
 
 
 docker = with_docstring(DockerSegment(),
@@ -54,7 +80,14 @@ docker = with_docstring(DockerSegment(),
 It will show the number of Docker containers running and exited.
 It requires Docker and docker-py to be installed.
 
+:param string base_url:
+    Base URL including protocol where your Docker daemon lives (e.g. ``tcp://192.168.99.109:2376``).
+    Defaults to ``unix://var/run/docker.sock``, which is where it lives on most Unix systems.
+
+:param array ignore_statuses:
+    List of statuses which will be ignored and not printed out (e.g. ``["exited", "paused"]``).
+
 Divider highlight group used: ``docker:divider``.
 
-Highlight groups used: ``docker_running``, ``docker_exited``, ``docker``.
+Highlight groups used: ``docker_running``, ``docker_paused``, ``docker_exited``, ``docker_restarting``, ``docker``.
 ''')
