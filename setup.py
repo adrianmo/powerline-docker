@@ -3,17 +3,17 @@
 from setuptools import setup
 
 setup(
-    name         = 'powerline-docker',
-    description  = 'A Powerline segment for showing Docker container statuses',
-    version      = '1.0.2',
-    keywords     = 'powerline docker container status',
-    license      = 'MIT',
-    author       = 'Adrian Moreno Martinez',
-    author_email = 'adrian@morenomartinez.com',
-    url          = 'https://github.com/adrianmo/powerline-docker',
-    packages     = ['powerline_docker'],
+    name             = 'powerline-docker',
+    description      = 'A Powerline segment for showing Docker container statuses',
+    version          = '1.0.2',
+    keywords         = 'powerline docker container status',
+    license          = 'MIT',
+    author           = 'Adrian Moreno Martinez',
+    author_email     = 'adrian@morenomartinez.com',
+    url              = 'https://github.com/adrianmo/powerline-docker',
+    packages         = ['powerline_docker'],
     install_requires = ['powerline-status', 'docker-py'],
-    classifiers  = [
+    classifiers      = [
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
