@@ -2,7 +2,7 @@
 from powerline.segments import Segment, with_docstring
 from powerline.theme import requires_segment_info
 from requests.exceptions import ConnectionError
-from docker import Client
+from docker import Client, tls
 
 
 DOCKER_STATUSES = ('running', 'paused', 'exited', 'restarting')
@@ -54,13 +54,20 @@ class DockerSegment(Segment):
 
         return segments
 
-    def __call__(self, pl, base_url='unix://var/run/docker.sock', ignore_statuses=[]):
-        self.pl = pl
-        self.ignore_statuses = ignore_statuses
-
+    def __call__(self, pl, base_url='unix://var/run/docker.sock', use_tls=False, ca_cert=None, client_cert=None, client_key=None, ignore_statuses=[]):
         pl.debug('Running powerline-docker')
 
-        self.cli = Client(base_url=base_url)
+        self.pl = pl
+        self.ignore_statuses = ignore_statuses
+        tls_config = None
+
+        if use_tls:
+            tls_config = tls.TLSConfig(
+                client_cert=(client_cert, client_key),
+                verify=ca_cert
+            )
+
+        self.cli = Client(base_url=base_url, tls=tls_config)
 
         try:
             statuses = self.get_statuses_count()
@@ -80,12 +87,20 @@ docker = with_docstring(DockerSegment(),
 It will show the number of Docker containers running and exited.
 It requires Docker and docker-py to be installed.
 
-:param string base_url:
-    Base URL including protocol where your Docker daemon lives (e.g. ``tcp://192.168.99.109:2376``).
+:param str base_url:
+    base URL including protocol where your Docker daemon lives (e.g. ``tcp://192.168.99.109:2376``).
     Defaults to ``unix://var/run/docker.sock``, which is where it lives on most Unix systems.
+:param list ignore_statuses:
+    list of statuses which will be ignored and not printed out (e.g. ``["exited", "paused"]``).
+:param bool use_tls:
+    if True, it will enable TLS communication with the Docker daemon. Defaults to False.
+:param str ca_cert:
+    path to CA cert file (e.g. ``/home/user/.docker/machine/machines/default/ca.pem``)
+:param str client_cert:
+    path to client cert (e.g. ``/home/user/.docker/machine/machines/default/cert.pem``)
+:param str client_key:
+    path to client key (e.g. ``/home/user/.docker/machine/machines/default/key.pem``)
 
-:param array ignore_statuses:
-    List of statuses which will be ignored and not printed out (e.g. ``["exited", "paused"]``).
 
 Divider highlight group used: ``docker:divider``.
 
