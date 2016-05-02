@@ -1,0 +1,23 @@
+language: python
+
+python:
+  - "2.7"
+
+deploy:
+  - provider: pypi
+    distributions: sdist
+    user: adrianmo
+    password:
+      secure: "jSxFnIEVRcnnP4LugljiDMenEPrbAp6dgNoffeOFlxYmS+USN2vT3NJ4l/CNDZdbwOYOXsJWOAj28ii+xQnmJW8mj9vshy4TTJridJosAX+uyf60IHni/EFIZB3bvl77H/p3xSyQQ57aziite0EtwKYLEKn1WbJsSoQ5Uefg/fV08PFXlZFkx+X91RU8guacv7eVFqw00/+YIvozu79GHCIZESxZOQYeGZPV2xHHQ+Yr9jAgsxvIu7yCCTnw1gfpVkOcD0EKLmscEcSF8PmovAaYll72X1mFZz6W1lv3mRQb7aV+7WxUhIJQqSvF+BsJMG4M4bvKOFzyS32Z9AQpN94fjgvjL4KBCTn3UdQusALyVj2Ut0dafYzA/b6WdHPRXj5NkURWYk+fjFWsIBvruj3+5EfW49ftdBRa9Ays5+5wLaaqSoplv7nyIVYKNstAwkVJguq7htUc+SKfApcR9oNsT72zbyjoWFK2CVdSgFKuc0Oxit8/QBi2CEaeiU+UHOu/Tu3zw8jNARYnQzi3ZekdzzotqfWo2Yb8TcDEq4DijKGgjoO3joNjGsCplYm4qyXIy7JxqaNVnKaTxmMhT0yrBno/whmVy2ZKpLUmcXY69fG6MoNpeUWcIey8U2Ak3IMgWhOJry0nFM2S/Rs46pOLhGDUFIHrvS0IbEmSSII="
+    on:
+      branch: master
+      tags: true
+  - provider: pypi
+    distributions: sdist
+    server: https://testpypi.python.org/pypi
+    user: adrianmo
+    password:
+      secure: "jSxFnIEVRcnnP4LugljiDMenEPrbAp6dgNoffeOFlxYmS+USN2vT3NJ4l/CNDZdbwOYOXsJWOAj28ii+xQnmJW8mj9vshy4TTJridJosAX+uyf60IHni/EFIZB3bvl77H/p3xSyQQ57aziite0EtwKYLEKn1WbJsSoQ5Uefg/fV08PFXlZFkx+X91RU8guacv7eVFqw00/+YIvozu79GHCIZESxZOQYeGZPV2xHHQ+Yr9jAgsxvIu7yCCTnw1gfpVkOcD0EKLmscEcSF8PmovAaYll72X1mFZz6W1lv3mRQb7aV+7WxUhIJQqSvF+BsJMG4M4bvKOFzyS32Z9AQpN94fjgvjL4KBCTn3UdQusALyVj2Ut0dafYzA/b6WdHPRXj5NkURWYk+fjFWsIBvruj3+5EfW49ftdBRa9Ays5+5wLaaqSoplv7nyIVYKNstAwkVJguq7htUc+SKfApcR9oNsT72zbyjoWFK2CVdSgFKuc0Oxit8/QBi2CEaeiU+UHOu/Tu3zw8jNARYnQzi3ZekdzzotqfWo2Yb8TcDEq4DijKGgjoO3joNjGsCplYm4qyXIy7JxqaNVnKaTxmMhT0yrBno/whmVy2ZKpLUmcXY69fG6MoNpeUWcIey8U2Ak3IMgWhOJry0nFM2S/Rs46pOLhGDUFIHrvS0IbEmSSII="
+    on:
+      branch: master
+      tags: false
