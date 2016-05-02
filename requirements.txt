@@ -1,3 +1,4 @@
 docker-py>=1.8.1
 requests>=2.10.0
 powerline-status>=2.4
+flake8>=2.5.4

@@ -1,6 +1,5 @@
 # vim:fileencoding=utf-8:noet
 from powerline.segments import Segment, with_docstring
-from powerline.theme import requires_segment_info
 from requests.exceptions import ConnectionError
 from docker import Client, tls
 
@@ -25,6 +24,7 @@ SEGMENT_INFO = {
         'highlight_group': 'docker_restarting'
     }
 }
+
 
 class DockerSegment(Segment):
 

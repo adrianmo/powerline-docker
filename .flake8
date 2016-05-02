@@ -1,0 +1,5 @@
+[flake8]
+ignore = E128
+max-line-length = 160
+exclude = setup.py,build/*
+max-complexity = 5
