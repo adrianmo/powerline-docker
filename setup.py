@@ -5,7 +5,7 @@ from setuptools import setup
 setup(
     name             = 'powerline-docker',
     description      = 'A Powerline segment for showing Docker container statuses',
-    version          = '1.0.2',
+    version          = '1.0.3',
     keywords         = 'powerline docker container status',
     license          = 'MIT',
     author           = 'Adrian Moreno Martinez',
