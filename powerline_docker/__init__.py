@@ -1,1 +1,1 @@
-from .segments import docker
+from .segments import docker  # noqa
