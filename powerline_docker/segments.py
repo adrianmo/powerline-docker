@@ -37,7 +37,6 @@ class DockerSegment(Segment):
             if not containers:
                 continue
             count.append({'status': status, 'quantity': len(containers)})
-
         return count
 
     def build_segments(self, statuses_count):
@@ -54,7 +53,9 @@ class DockerSegment(Segment):
 
         return segments
 
-    def __call__(self, pl, base_url='unix://var/run/docker.sock', use_tls=False, ca_cert=None, client_cert=None, client_key=None, ignore_statuses=[]):
+    def __call__(self, pl, base_url='unix://var/run/docker.sock', timeout=2,
+                 use_tls=False, ca_cert=None, client_cert=None,
+                 client_key=None, ignore_statuses=[]):
         pl.debug('Running powerline-docker')
 
         self.pl = pl
@@ -67,7 +68,7 @@ class DockerSegment(Segment):
                 verify=ca_cert
             )
 
-        self.cli = Client(base_url=base_url, tls=tls_config)
+        self.cli = Client(base_url=base_url, timeout=timeout, tls=tls_config)
 
         try:
             statuses = self.get_statuses_count()
@@ -90,17 +91,24 @@ It requires Docker and docker-py to be installed.
 :param str base_url:
     base URL including protocol where your Docker daemon lives (e.g. ``tcp://192.168.99.109:2376``).
     Defaults to ``unix://var/run/docker.sock``, which is where it lives on most Unix systems.
+
+:param int timeout:
+    Timeout for API calls, in seconds. Defaults to 2.
+
 :param list ignore_statuses:
     list of statuses which will be ignored and not printed out (e.g. ``["exited", "paused"]``).
+
 :param bool use_tls:
     if True, it will enable TLS communication with the Docker daemon. Defaults to False.
+
 :param str ca_cert:
     path to CA cert file (e.g. ``/home/user/.docker/machine/machines/default/ca.pem``)
+
 :param str client_cert:
     path to client cert (e.g. ``/home/user/.docker/machine/machines/default/cert.pem``)
+
 :param str client_key:
     path to client key (e.g. ``/home/user/.docker/machine/machines/default/key.pem``)
-
 
 Divider highlight group used: ``docker:divider``.
 

@@ -49,7 +49,7 @@ Then you can activate the Docker segment by adding it to your segment configurat
 }
 ```
 
-By default the segment tries to connect to the Docker engine at `unix://var/run/docker.sock`, which is where it lives on most Unix systems. If your Docker engine is not living there, you can change the URL with the `base_url` argument.
+By default the segment tries to connect to the Docker engine at `unix://var/run/docker.sock`, which is where it lives on most Unix systems. If your Docker engine is not living there, you can change the URL with the `base_url` argument. You can also change the `timeout` for API calls, which is set to 2 seconds by default.
 
 The following configuration enables TLS and works with [Docker Machine](https://docs.docker.com/machine/).
 
@@ -59,6 +59,7 @@ The following configuration enables TLS and works with [Docker Machine](https://
     "priority": 30,
     "args": {
       "base_url": "tcp://192.168.99.100:2376",
+      "timeout": 2,
       "use_tls": true,
       "ca_cert": "/path/to/ca.pem",
       "client_cert": "/path/to/cert.pem",
