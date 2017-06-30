@@ -6,6 +6,7 @@ This segment shows the number of running, paused, exited, and restarting contain
 
 <img src="screenshot.png" width="300">
 
+
 ## Glossary
 
 - `●`: n containers running
@@ -14,7 +15,7 @@ This segment shows the number of running, paused, exited, and restarting contain
 - `↻`: n containers restarting
 
 
-## Requirements
+## Requirements
 
 The Docker segment requires [docker](https://docs.docker.com/engine/installation/) and [docker-py](https://docker-py.readthedocs.org).
 
