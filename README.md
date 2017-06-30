@@ -6,18 +6,20 @@ This segment shows the number of running, paused, exited, and restarting contain
 
 <img src="screenshot.png" width="300">
 
-Glossary
---------
+## Glossary
+
 - `●`: n containers running
 - `~`: n containers paused
 - `✖`: n containers exited
 - `↻`: n containers restarting
 
+
 ## Requirements
 
 The Docker segment requires [docker](https://docs.docker.com/engine/installation/) and [docker-py](https://docker-py.readthedocs.org).
 
-## Installation
+
+## Installation
 
 Installing the Docker segment can be done with `pip`:
 
@@ -68,7 +70,8 @@ The following configuration enables TLS and works with [Docker Machine](https://
 }
 ```
 
-## License
+
+## License
 
 Licensed under the [MIT License](LICENSE).
 
